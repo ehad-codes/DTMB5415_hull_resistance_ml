@@ -1,0 +1,123 @@
+DTMB 5415 Hull Dataset – Matrix Structure Description
+============================================
+
+General
+-------
+Total samples: 9001
+Column-wise organization: each column corresponds to one configuration
+Column 1: baseline (DTMB 5415 reference hull)
+Columns 2–9001: sampled configurations
+
+All matrices share the same number of columns (9001)
+
+---
+
+SCALING INFORMATION
+-------------------
+
+Geometry:
+- Full scale representation
+- Lpp = 142 m
+
+Seakeeping quantities:
+- Computed at full scale
+
+Calm-water quantities:
+- Computed at model scale
+- Lpp = 5.720 m
+
+Reference model-scale parameters:
+- Displacement: 0.549 tonnes
+- Beam: 0.760 m
+- Draft: 0.248 m
+- LCG: 2.884 m
+- VCG: 0.056 m
+- Water density: 998.5 kg/m³
+- Kinematic viscosity: 1.09E-06 m²/s
+- Gravity: 9.803 m/s²
+
+---
+
+GEOMETRY
+--------
+
+xMatrix: (2250 × 9001)
+yMatrix: (2250 × 9001)
+zMatrix: (2250 × 9001)
+
+Description:
+Flattened hull surface coordinates (full scale).
+
+Total geometric DOFs:
+3 × 2250 = 6750
+
+---
+
+DESIGN VARIABLES
+----------------
+
+variablesMatrix: (27 × 9001)
+
+Description:
+Normalized design variables in [-1,1].
+
+---
+
+LUMPED PHYSICAL QUANTITIES
+--------------------------
+
+coefStatMatrix: (3 × 9001)
+    Wave resistance coefficient (Cw) – model scale
+
+accelerationRMSMatrix: (3 × 9001)
+    RMS vertical acceleration (az) – full scale
+
+motionRMSMatrix: (3 × 9001)
+    RMS pitch motion (xi5) – full scale
+
+Rows correspond to:
+
+Row 1 → Fr = 0.25
+Row 2 → Fr = 0.33
+Row 3 → Fr = 0.41
+
+---
+
+DISTRIBUTED PHYSICAL QUANTITIES
+-------------------------------
+
+Pressure (model scale):
+
+preMatrix0250: (2250 × 9001) → Fr = 0.25  
+preMatrix0330: (2250 × 9001) → Fr = 0.33  
+preMatrix0410: (2250 × 9001) → Fr = 0.41  
+
+Wave elevation (model scale):
+
+intfrMatrix0250: (1500 × 9001) → Fr = 0.25  
+intfrMatrix0330: (1500 × 9001) → Fr = 0.33  
+intfrMatrix0410: (1500 × 9001) → Fr = 0.41  
+
+---
+
+NOTES
+-----
+
+- No NaN values present
+- Dataset contains only physically valid simulations
+- Suitable for physics-informed dimensionality reduction
+
+---
+
+PME DATA ASSEMBLY (reference)
+-----------------------------
+
+D = [xMatrix; yMatrix; zMatrix]
+
+U = variablesMatrix
+
+F = [pressure matrices; wave elevation matrices]
+
+C = [coefStatMatrix; accelerationRMSMatrix; motionRMSMatrix]
+
+P = [D; U; F; C]
